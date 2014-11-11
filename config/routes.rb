@@ -11,10 +11,10 @@ ResqueWeb::Engine.routes.draw do
   resources :working,   :only => [:index]
   resources :queues,    :only => [:index,:show,:destroy], :constraints => {:id => id_pattern} do
     member do
-      put 'clear' 
+      put 'clear'
     end
   end
-  resources :workers,   :only => [:index,:show], :constraints => {:id => id_pattern}
+  resources :workers,   :only => [:index,:show,:destroy], :constraints => {:id => id_pattern}
   resources :failures,  :only => [:show,:index,:destroy] do
     member do
       put 'retry'
@@ -28,6 +28,9 @@ ResqueWeb::Engine.routes.draw do
   get '/stats' => "stats#index"
   get '/stats/:action',     :controller => :stats
   get '/stats/:action/:id', :controller => :stats, :constraints => {:id => id_pattern}, :as => :statistic
+
+  #route pass worker id to controller method that unregisteres worker by id
+  delete '/kill_worker/:id' => "workers#kill_worker", :as => :kill_worker
 
   root :to => 'overview#show'
 

@@ -13,6 +13,19 @@ module ResqueWeb
       end
     end
 
+    #kills all workers on a given host
+    def destroy
+      @workers = Resque.workers
+      @workers.each { |worker| worker.unregister_worker}
+      redirect_to workers_path
+    end
+
+    #kills worker by by worker id
+    def kill_worker
+      Resque::Worker.find(params[:id]).unregister_worker
+      redirect_to workers_path
+    end
+
     private
 
     def display_subtabs

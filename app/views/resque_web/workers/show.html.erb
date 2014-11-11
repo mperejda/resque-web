@@ -1,12 +1,21 @@
   <h1 class="wi"><%= @workers.size %> Workers</h1>
   <p class="intro">The workers listed below are all registered as active on your system.</p>
 
+  <!-- Kills all workers on the current host  -->
+  <%= form_tag(worker_path(params[:id]), :method => :delete, :class => 'remove-queue') do %>
+    <%= submit_tag "Kill All Workers", :class => 'btn btn-danger', :data => { :confirm => "Are you sure you want to kill all workers on this host?" } %>
+  <% end %>
+  <!-- End -->
+
   <table class="table table-bordered workers">
     <tr>
       <th>&nbsp;</th>
       <th>Where</th>
       <th>Queues</th>
       <th>Processing</th>
+      <!-- Add column  -->
+      <th>Kill Worker?</th>
+      <!-- End  -->
     </tr>
     <% @workers.each do |worker| %>
     <tr class="<% worker.state %>">
@@ -27,7 +36,11 @@
         <% else %>
           <span class="waiting">Waiting for a job...</span>
         <% end %>
+        <!-- Kill worker by id -->
+      <td class="where">
+        <%= link_to "Kill Worker", kill_worker_path(worker), :method=> :delete, :data => { :confirm => "Are you sure you want to kill #{worker}?"} %>
       </td>
+      <!-- End -->
     </tr>
     <% end %>
     <% if @workers.empty? %>
