@@ -4,10 +4,6 @@ gemspec
 gem 'rails', '~> 4.0.3'
 gem 'resque', :git => 'https://github.com/resque/resque.git', :branch => "1-x-stable"
 
-#add functionality w/ two new plugins, encountered difficulties
-gem 'resque-sliders'
-gem 'resque-history'
-
 gem 'sqlite3', :platforms => :ruby
 gem 'activerecord-jdbcsqlite3-adapter', :platforms => :jruby
 
